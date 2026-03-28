@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अनुष्का डिजिटल नेवता - गाड़ी बुकिंग</title>
+    <style>
+        /* CSS स्टाइलिंग */
+        body { font-family: 'Poppins', Arial, sans-serif; margin: 0; background-color: #fdfbf0; color: #333; transition: 0.5s; }
+        
+        /* होमपेज स्टाइल */
+        #homePage {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover; background-position: center;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+
+        .brand-name {
+            font-size: 4rem; font-weight: bold; margin-bottom: 10px;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .booking-btn {
+            padding: 15px 40px; font-size: 1.2rem; color: #000;
+            background: linear-gradient(to right, #d4af37, #f9d976);
+            border: none; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* बुकिंग पेज स्टाइल */
+        #bookingPage { display: none; padding: 20px; }
+        .header { background: #000; color: #d4af37; padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; }
+        .container { max-width: 600px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #aa771c; }
+        select, input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        
+        .check-btn { width: 100%; padding: 15px; background: #aa771c; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        .status-box { padding: 15px; margin-top: 20px; border-radius: 8px; display: none; text-align: center; font-weight: bold; }
+        .available { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .booked { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .price-box { display: none; margin-top: 20px; padding: 15px; border: 1px dashed #aa771c; background: #fff9e6; border-radius: 8px; text-align: center; }
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 15px; display: none; }
+
+        @media (max-width: 600px) { .brand-name { font-size: 2.5rem; } }
+    </style>
+</head>
+<body>
+
+    <div id="homePage">
+        <h1 class="brand-name">अनुष्का डिजिटल नेवता</h1>
+        <p style="color: white; margin-bottom: 30px;">शादियों के लिए बेहतरीन गाड़ियों की बुकिंग</p>
+        <button class="booking-btn" onclick="showBooking()">अपनी गाड़ी बुक करें</button>
+    </div>
+
+    <div id="bookingPage">
+        <div class="header">
+            <h2>अनुष्का डिजिटल नेवता</h2>
+        </div>
+        
+        <div class="container">
+            <h3 style="text-align:center; color:#aa771c;">उपलब्धता और किराया जांचें</h3>
+            
+            <div class="form-group">
+                <label>गाड़ी चुनें:</label>
+                <select id="car">
+                    <option value="scorpio" data-price="3500">Scorpio (S11)</option>
+                    <option value="fortuner" data-price="8500">Toyota Fortuner</option>
+                    <option value="innova" data-price="5000">Innova Crysta</option>
+                    <option value="swift" data-price="2500">Swift Dzire</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>तारीख चुनें:</label>
+                <input type="date" id="bookingDate">
+            </div>
+
+            <button class="check-btn" onclick="checkAvailability()">चेक करें</button>
+
+            <div id="statusMessage" class="status-box"></div>
+
+            <div id="priceBox" class="price-box">
+                <p id="detailsText"></p>
+                <h2 id="fareAmount" style="color: #2c2c2c;"></h2>
+                <button id="whatsappBtn" class="whatsapp-btn" onclick="sendToWhatsApp()">✅ WhatsApp पर बुकिंग पक्की करें</button>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px; cursor: pointer; color: blue;" onclick="location.reload()">← मुख्य पृष्ठ पर जाएं</p>
+        </div>
+    </div>
+
+    <script>
+        // पेज बदलने का फंक्शन
+        function showBooking() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bookingPage').style.display = 'block';
+            document.body.style.backgroundColor = '#fdfbf0';
+        }
+
+        // उपलब्धता जांचने का फंक्शन
+        function checkAvailability() {
+            const date = document.getElementById('bookingDate').value;
+            const carSelect = document.getElementById('car');
+            const carName = carSelect.options[carSelect.selectedIndex].text;
+            const price = carSelect.options[carSelect.selectedIndex].getAttribute('data-price');
+            
+            const statusBox = document.getElementById('statusMessage');
+            const priceBox = document.getElementById('priceBox');
+            const whatsappBtn = document.getElementById('whatsappBtn');
+
+            if (!date) { alert("कृपया तारीख चुनें!"); return; }
+
+            // डेमो बुकिंग डेटा (बाद में इसे डेटाबेस से बदलेंगे)
+            const bookedDates = ["2026-04-14", "2026-04-20"];
+
+            statusBox.style.display = "block";
+
+            if (bookedDates.includes(date)) {
+                statusBox.className = "status-box booked";
+                statusBox.innerHTML = "क्षमा करें! " + carName + " इस तारीख को बुक है। ❌";
+                priceBox.style.display = "none";
+                whatsappBtn.style.display = "none";
+            } else {
+                statusBox.className = "status-box available";
+                statusBox.innerHTML = "बधाई हो! यह गाड़ी उपलब्ध है। ✅";
+                
+                priceBox.style.display = "block";
+                document.getElementById('detailsText').innerHTML = `गाड़ी: <b>${carName}</b> | तारीख: <b>${date}</b>`;
+                document.getElementById('fareAmount').innerText = "₹ " + parseInt(price).toLocaleString('hi-IN') + "/-";
+                whatsappBtn.style.display = "block";
+            }
+        }
+
+        // WhatsApp मैसेज फंक्शन
+        function sendToWhatsApp() {
+            const carName = document.getElementById('car').options[document.getElementById('car').selectedIndex].text;
+            const date = document.getElementById('bookingDate').value;
+            const fare = document.getElementById('fareAmount').innerText;
+            
+            const myNumber = "91XXXXXXXXXX"; // यहाँ अपना नंबर बदलें
+            const msg = `नमस्ते *अनुष्का डिजिटल नेवता*, %0A%0Aमैं एक गाड़ी बुक करना चाहता हूँ:%0A🚗 *गाड़ी:* ${carName}%0A📅 *तारीख:* ${date}%0A💰 *किराया:* ${fare}%0A%0Aकृपया मेरी बुकिंग कन्फर्म करें।`;
+            
+            window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+        }
+    </script>
+</body>
+</html>
