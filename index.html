@@ -143,7 +143,7 @@
             const date = document.getElementById('bookingDate').value;
             const fare = document.getElementById('fareAmount').innerText;
             
-            const myNumber = "91XXXXXXXXXX"; // यहाँ अपना नंबर बदलें
+            const myNumber = "918252483470"; // यहाँ अपना नंबर बदलें
             const msg = `नमस्ते *अनुष्का डिजिटल नेवता*, %0A%0Aमैं एक गाड़ी बुक करना चाहता हूँ:%0A🚗 *गाड़ी:* ${carName}%0A📅 *तारीख:* ${date}%0A💰 *किराया:* ${fare}%0A%0Aकृपया मेरी बुकिंग कन्फर्म करें।`;
             
             window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
