@@ -3,75 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>अनुष्का डिजिटल नेवता - बुकिंग</title>
+    <title>Anushka Digital Newta</title>
     <style>
-        body { font-family: 'Poppins', sans-serif; margin: 0; background: #000; color: #fff; text-align: center; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: #fdfbf0; color: #333; }
         
-        /* ऊपर का हिस्सा */
-        .hero { padding: 50px 20px; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000'); background-size: cover; border-bottom: 2px solid #d4af37; }
-        .brand-name { font-size: 3rem; font-weight: bold; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        
-        /* बुकिंग बॉक्स */
-        .container { max-width: 450px; margin: -50px auto 50px; background: #fff; color: #333; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); position: relative; }
+        /* नेविगेशन बार (एक पंक्ति में) */
+        nav {
+            background: #000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #d4af37;
+        }
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        nav a:hover { color: #fff; }
+
+        /* सेक्शन कंट्रोल */
+        .section { display: none; padding: 40px 20px; min-height: 80vh; text-align: center; }
+        .active { display: block; }
+
+        /* होमपेज स्टाइल */
+        #home {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+        }
+        .brand-name { font-size: 3rem; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; margin: 0; }
+
+        /* कंटेनर और फॉर्म */
+        .container { max-width: 450px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); color: #333; }
         label { display: block; text-align: left; margin-top: 15px; font-weight: bold; color: #aa771c; }
-        select, input { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
         
-        .check-btn { width: 100%; padding: 15px; background: #aa771c; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.2rem; margin-top: 20px; transition: 0.3s; }
-        .check-btn:hover { background: #000; color: #d4af37; }
-        
-        /* रिजल्ट और व्हाट्सएप */
+        .btn-main { width: 100%; padding: 15px; background: #aa771c; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.1rem; }
         .status-box { padding: 15px; margin-top: 20px; border-radius: 8px; display: none; font-weight: bold; }
         .available { background: #d4edda; color: #155724; }
         .booked { background: #f8d7da; color: #721c24; }
-        .price-box { display: none; margin-top: 15px; padding: 15px; border: 1px dashed #aa771c; background: #fff9e6; border-radius: 8px; }
+        
         .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; text-decoration: none; display: inline-block; }
-
-        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; display: block; margin-top: 30px; }
     </style>
 </head>
 <body>
 
-    <div class="hero">
+    <nav>
+        <a onclick="showPage('home')">होम</a>
+        <a onclick="showPage('booking')">गाड़ी बुक करें</a>
+        <a onclick="adminLogin()">एडमिन</a>
+        <a onclick="showPage('about')">हमारे बारे में</a>
+        <a onclick="showPage('contact')">संपर्क</a>
+    </nav>
+
+    <div id="home" class="section active">
         <h1 class="brand-name">अनुष्का डिजिटल नेवता</h1>
-        <p>शादी बुकिंग सेवा</p>
+        <p>शादियों के सीजन के लिए प्रीमियम बुकिंग सर्विस</p>
+        <button class="btn-main" style="width:auto; padding: 12px 30px;" onclick="showPage('booking')">अभी बुकिंग शुरू करें</button>
     </div>
 
-    <div class="container">
-        <label>गाड़ी चुनें:</label>
-        <select id="carSelect">
-            <option value="Bolero_11">Bolero_11</option>
-            <option value="Scorpio">Scorpio</option>
-            <option value="Fortuner">Fortuner</option>
-        </select>
-
-        <label>तारीख चुनें:</label>
-        <input type="date" id="bookDate">
-
-        <button class="check-btn" onclick="checkData()">उपलब्धता देखें</button>
-
-        <div id="statusResult" class="status-box"></div>
-
-        <div id="priceInfo" class="price-box">
-            <p id="carDisplay"></p>
-            <h2 id="fareDisplay" style="margin: 5px 0;"></h2>
-            <a id="waLink" href="#" target="_blank" class="whatsapp-btn">✅ व्हाट्सएप पर बुकिंग भेजें</a>
+    <div id="booking" class="section">
+        <div class="container">
+            <h2>गाड़ी की उपलब्धता</h2>
+            <label>गाड़ी चुनें:</label>
+            <select id="carSelect">
+                <option value="Bolero_11">Bolero_11</option>
+                <option value="Scorpio">Scorpio</option>
+                <option value="Fortuner">Fortuner</option>
+            </select>
+            <label>तारीख चुनें:</label>
+            <input type="date" id="bookDate">
+            <button class="btn-main" onclick="checkData()">चेक करें</button>
+            <div id="statusResult" class="status-box"></div>
+            <div id="priceInfo" style="display:none; margin-top:15px; padding:15px; border:1px dashed #aa771c; background:#fff9e6; border-radius:8px;">
+                <p id="carDisplay"></p>
+                <h2 id="fareDisplay" style="color:#000;"></h2>
+                <a id="waLink" href="#" target="_blank" class="whatsapp-btn">✅ WhatsApp पर बुकिंग भेजें</a>
+            </div>
         </div>
-        
-        <a href="#" class="admin-link" onclick="adminLogin()">🔐 एडमिन लॉगिन</a>
+    </div>
+
+    <div id="about" class="section">
+        <div class="container">
+            <h2>हमारे बारे में</h2>
+            <p>अनुष्का डिजिटल नेवता एक विश्वसनीय डिजिटल प्लेटफॉर्म है जो शादियों और अन्य शुभ अवसरों के लिए गाड़ियाँ उपलब्ध कराने में आपकी मदद करता है।</p>
+        </div>
+    </div>
+
+    <div id="contact" class="section">
+        <div class="container">
+            <h2>संपर्क करें</h2>
+            <p>📧 ईमेल: anushkadigitalnewta@gmail.com</p>
+            <p>📞 फोन: +91 XXXXXXXXXX</p>
+            <p>📍 पता: आपकी लोकेशन, भारत</p>
+        </div>
     </div>
 
 <script>
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDyvb-z7hge3objhHt8eBuUGbgvp7EEeHvqfl3fR0FlkK-YpkQB5fP3SRaAmtrH4Igx46QAKmGs5CR/pub?output=csv";
-    const MY_PHONE = "918252483470"; // अपना नंबर यहाँ डालें
+    const MY_PHONE = "918252483470"; // अपना नंबर यहाँ बदलें
 
+    // पेज बदलने का फंक्शन
+    function showPage(id) {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    // एडमिन लॉगिन
+    function adminLogin() {
+        const pass = prompt("एडमिन पासवर्ड:");
+        if (pass === "Anushka@2026") {
+            window.open("https://docs.google.com/spreadsheets/d/1r9UjdyIEOZKz-88nYj4PQ_NeML9o_OKvJW7HQs3TlvQ/edit", "_blank");
+        } else if (pass !== null) {
+            alert("गलत पासवर्ड!");
+        }
+    }
+
+    // डेटा चेक करने का फंक्शन
     async function checkData() {
         const rawDate = document.getElementById('bookDate').value;
         const selectedCar = document.getElementById('carSelect').value;
         const statusBox = document.getElementById('statusResult');
         const priceBox = document.getElementById('priceInfo');
 
-        if (!rawDate) { alert("तारीख चुनें!"); return; }
-
+        if (!rawDate) { alert("कृपया तारीख चुनें!"); return; }
         const [y, m, d] = rawDate.split('-');
         const formattedDate = ${d}/${m}/${y};
 
@@ -93,24 +157,19 @@
             statusBox.style.display = "block";
             if (isBooked) {
                 statusBox.className = "status-box booked";
-                statusBox.innerText = "यह गाड़ी बुक है! ❌";
+                statusBox.innerText = क्षमा करें! ${selectedCar} इस दिन बुक है। ❌;
                 priceBox.style.display = "none";
             } else {
                 statusBox.className = "status-box available";
-                statusBox.innerText = "गाड़ी उपलब्ध है! ✅";
+                statusBox.innerText = बधाई हो! ${selectedCar} उपलब्ध है। ✅;
                 priceBox.style.display = "block";
-                document.getElementById('carDisplay').innerText = selectedCar + " (" + formattedDate + ")";
-                document.getElementById('fareDisplay').innerText = "₹ " + currentFare;
+                document.getElementById('carDisplay').innerHTML = गाड़ी: <b>${selectedCar}</b><br>तारीख: <b>${formattedDate}</b>;
+                document.getElementById('fareDisplay').innerText = ₹ ${currentFare}/-;
                 
-                const msg = encodeURIComponent(नमस्ते अनुष्का डिजिटल नेवता, मैं ${selectedCar} बुक करना चाहता हूँ (${formattedDate})। किराया: ₹${currentFare});
-                document.getElementById('waLink').href = "https://api.whatsapp.com/send?phone=" + MY_PHONE + "&text=" + msg;
+                const msg = encodeURIComponent(नमस्ते अनुष्का डिजिटल नेवता,\nमैं गाड़ी बुक करना चाहता हूँ।\nगाड़ी: ${selectedCar}\nतारीख: ${formattedDate}\nकिराया: ₹${currentFare}/-);
+                document.getElementById('waLink').href = https://wa.me/${MY_PHONE}?text=${msg};
             }
-        } catch (e) { alert("इंटरनेट चेक करें!"); }
-    }
-
-    function adminLogin() {
-        const pass = prompt("पासवर्ड:");
-        if (pass === "Anushka@2026") window.open("https://docs.google.com/spreadsheets/d/1r9UjdyIEOZKz-88nYj4PQ_NeML9o_OKvJW7HQs3TlvQ/edit", "_blank");
+        } catch (e) { alert("डेटा लोड नहीं हो पाया!"); }
     }
 </script>
 </body>
