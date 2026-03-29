@@ -3,100 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>अनुष्का डिजिटल नेवता</title>
+    <title>अनुष्का डिजिटल नेवता - बुकिंग</title>
     <style>
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #fdfbf0; color: #333; }
-        
-        /* नेविगेशन बार - एक पंक्ति में */
-        nav {
-            background: #000; padding: 15px; display: flex; justify-content: center; gap: 12px;
-            position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #d4af37;
+        body { font-family: 'Poppins', Arial, sans-serif; margin: 0; background-color: #fdfbf0; color: #333; }
+        #homePage {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover; background-position: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        nav a { color: #d4af37; text-decoration: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
-
-        /* सेक्शन स्टाइल */
-        section { padding: 60px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .brand-name { font-size: 3.5rem; font-weight: bold; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        .booking-btn { padding: 15px 40px; font-size: 1.2rem; color: #000; background: linear-gradient(to right, #d4af37, #f9d976); border: none; border-radius: 50px; cursor: pointer; font-weight: bold; text-decoration: none; box-shadow: 0 4px 15px rgba(212,175, 55, 0.4); }
         
-        /* होमपेज */
-        #home {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1000');
-            background-size: cover; background-position: center; color: white; text-align: center;
-        }
-        .brand-name { font-size: 3rem; background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; margin: 0; }
+        #bookingPage { display: none; padding: 20px; }
+        .container { max-width: 500px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .header { background: #000; color: #d4af37; padding: 15px; text-align: center; border-bottom: 3px solid #d4af37; border-radius: 10px 10px 0 0; }
         
-        /* फॉर्म और कंटेनर */
-        .container { width: 100%; max-width: 450px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        h2 { color: #aa771c; margin-top: 0; }
-        label { display: block; text-align: left; margin-top: 15px; font-weight: bold; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .check-btn { width: 100%; padding: 15px; background: #aa771c; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
         
-        .btn-main { width: 100%; padding: 15px; background: #aa771c; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.1rem; }
-        .status-box { padding: 15px; margin-top: 20px; border-radius: 8px; display: none; font-weight: bold; }
-        .available { background: #d4edda; color: #155724; }
-        .booked { background: #f8d7da; color: #721c24; }
+        .status-box { padding: 15px; margin-top: 15px; border-radius: 8px; display: none; text-align: center; font-weight: bold; }
+        .available { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .booked { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         
-        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 15px; text-decoration: none; display: inline-block; text-align: center; }
+        .price-box { display: none; margin-top: 15px; padding: 15px; border: 1px dashed #aa771c; background: #fff9e6; border-radius: 8px; text-align: center; }
+        .whatsapp-btn { background-color: #25D366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; text-decoration: none; display: inline-block; }
+        
+        .admin-link { display: block; text-align: center; margin-top: 50px; color: red; font-size: 05rem; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#home">होम</a>
-        <a href="#booking">गाड़ी बुक करें</a>
-        <a href="#about">हमारे बारे में</a>
-        <a href="#contact">संपर्क</a>
-        <a href="javascript:void(0)" onclick="adminLogin()">एडमिन</a>
-    </nav>
-
-    <section id="home">
+    <div id="homePage">
         <h1 class="brand-name">अनुष्का डिजिटल नेवता</h1>
-        <p>शादियों के लिए प्रीमियम गाड़ी बुकिंग सेवा</p>
-        <a href="#booking" class="btn-main" style="text-decoration:none; width:auto; padding: 12px 30px;">अभी बुक करें</a>
-    </section>
+        <p style="color: #fff; margin-bottom: 25px;">शादियों के सीजन के लिए गाड़ी बुकिंग सेवा</p>
+        <button class="booking-btn" onclick="openBooking()">अपनी गाड़ी बुक करें</button>
+    </div>
 
-    <section id="booking">
+    <div id="bookingPage">
+        <div class="header"><h2>अनुष्का डिजिटल नेवता</h2></div>
         <div class="container">
-            <h2>गाड़ी की उपलब्धता</h2>
             <label>गाड़ी चुनें:</label>
             <select id="carSelect">
                 <option value="Bolero_11">Bolero_11</option>
                 <option value="Scorpio">Scorpio</option>
                 <option value="Fortuner">Fortuner</option>
+                <option value="Swift">Swift Dzire</option>
             </select>
+
             <label>तारीख चुनें:</label>
             <input type="date" id="bookDate">
-            <button class="btn-main" onclick="checkData()">चेक करें</button>
-            
+
+            <button class="check-btn" onclick="checkData()">उपलब्धता और किराया देखें</button>
+
             <div id="statusResult" class="status-box"></div>
-            
-            <div id="priceInfo" style="display:none; margin-top:15px; padding:15px; border:1px dashed #aa771c; background:#fff9e6; border-radius:8px; text-align:center;">
+
+            <div id="priceInfo" class="price-box">
                 <p id="carDisplay"></p>
-                <h2 id="fareDisplay" style="color:#000; margin:5px 0;"></h2>
-                <a id="waLink" href="#" target="_blank" class="whatsapp-btn">✅ व्हाट्सएप पर बुकिंग भेजें</a>
+                <h2 id="fareDisplay" style="margin: 5px 0;"></h2>
+                <a id="waLink" href="#" target="_blank" class="whatsapp-btn">✅ WhatsApp पर बुकिंग पक्की करें</a>
             </div>
-        </div>
-    </section>
 
-    <section id="about">
-        <div class="container">
-            <h2>हमारे बारे में</h2>
-            <p>अनुष्का डिजिटल नेवता शादियों के सीजन में आपको सही समय पर सही गाड़ी दिलाने का वादा करता है।</p>
+            <p style="text-align: center; margin-top: 15px; cursor: pointer; color: #aa771c;" onclick="location.reload()">← वापस जाएं</p>
         </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <h2>संपर्क करें</h2>
-            <p>📧 Email: anushkadigitalnewta@gmail.com</p>
-            <p>📞 Phone: +91 9876543210</p>
-            <p>📍 Location: आपकी जगह, भारत</p>
-        </div>
-    </section>
+        
+        <a href="#" class="admin-link" onclick="adminLogin()">Owner Login (Admin)</a>
+    </div>
 
 <script>
+    // आपकी Google Sheet CSV लिंक
     const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDyvb-z7hge3objhHt8eBuUGbgvp7EEeHvqfl3fR0FlkK-YpkQB5fP3SRaAmtrH4Igx46QAKmGs5CR/pub?output=csv";
+    
+    // अपना WhatsApp नंबर यहाँ डालें (91 के साथ)
     const MY_PHONE = "918252483470"; 
+
+    function openBooking() {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('bookingPage').style.display = 'block';
+    }
 
     async function checkData() {
         const rawDate = document.getElementById('bookDate').value;
@@ -105,46 +87,64 @@
         const priceBox = document.getElementById('priceInfo');
 
         if (!rawDate) { alert("कृपया तारीख चुनें!"); return; }
+
+        // तारीख को DD/MM/YYYY में बदलें (शीट मैचिंग के लिए)
         const [y, m, d] = rawDate.split('-');
         const formattedDate = ${d}/${m}/${y};
 
         try {
             const response = await fetch(sheetURL);
-            const csvData = await response.text();
-            const rows = csvData.split('\n').map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
+            const data = await response.text();
+            const rows = data.split('\n').map(r => r.split(','));
 
-            let isBooked = false;
-            let currentFare = "संपर्क करें";
+            let foundBooking = false;
+            let currentFare = "किराया उपलब्ध नहीं";
 
+            // डेटा स्कैन करें
             for (let i = 1; i < rows.length; i++) {
-                if (rows[i][0] === selectedCar && rows[i][1] === formattedDate && rows[i][2] === "Booked") {
-                    isBooked = true; break;
+                const sCar = rows[i][0]?.trim();
+                const sDate = rows[i][1]?.trim();
+                const sStatus = rows[i][2]?.trim();
+                const sPrice = rows[i][3]?.trim();
+
+                if (sCar === selectedCar && sDate === formattedDate && sStatus === "Booked") {
+                    foundBooking = true;
+                    break;
                 }
-                if (rows[i][0] === selectedCar) { currentFare = rows[i][3]; }
+                // अगर उसी गाड़ी का कोई भी डेटा मिले, तो किराया उठा लें
+                if (sCar === selectedCar) { currentFare = sPrice; }
             }
 
             statusBox.style.display = "block";
-            if (isBooked) {
+            if (foundBooking) {
                 statusBox.className = "status-box booked";
-                statusBox.innerText = "क्षमा करें, यह गाड़ी बुक है! ❌";
+                statusBox.innerText = क्षमा करें! ${selectedCar} इस दिन बुक है। ❌;
                 priceBox.style.display = "none";
             } else {
                 statusBox.className = "status-box available";
-                statusBox.innerText = "गाड़ी उपलब्ध है! ✅";
+                statusBox.innerText = बधाई हो! ${selectedCar} खाली है। ✅;
                 priceBox.style.display = "block";
                 document.getElementById('carDisplay').innerHTML = गाड़ी: <b>${selectedCar}</b> | तारीख: <b>${formattedDate}</b>;
                 document.getElementById('fareDisplay').innerText = ₹ ${currentFare}/-;
                 
-                const msg = encodeURIComponent(नमस्ते अनुष्का डिजिटल नेवता, मैं गाड़ी बुक करना चाहता हूँ।\nगाड़ी: ${selectedCar}\nतारीख: ${formattedDate}\nकिराया: ₹${currentFare}/-);
+                // WhatsApp लिंक अपडेट करें
+                const msg = encodeURIComponent(नमस्ते अनुष्का डिजिटल नेवता,\nमैं गाड़ी बुक करना चाहता हूँ।\nगाड़ी: ${selectedCar}\nतारीख: ${formattedDate}\nकिराया: ₹${currentFare}/-\nकृपया पुष्टि करें।);
                 document.getElementById('waLink').href = https://wa.me/${MY_PHONE}?text=${msg};
             }
-        } catch (e) { alert("Error: डेटा लोड नहीं हुआ!"); }
+
+        } catch (e) {
+            alert("डेटा लोड नहीं हो पाया। कृपया इंटरनेट चेक करें।");
+        }
     }
 
     function adminLogin() {
-        const pass = prompt("पासवर्ड:");
-        if (pass === "Anushka@2026") window.open("https://docs.google.com/spreadsheets/d/1r9UjdyIEOZKz-88nYj4PQ_NeML9o_OKvJW7HQs3TlvQ/edit", "_blank");
-        else if (pass !== null) alert("गलत पासवर्ड!");
+        const pass = prompt("एडमिन पासवर्ड दर्ज करें:");
+        if (pass === "Anushka@2026") {
+            // मालिक को सीधे शीट पर भेजें जहाँ से वो बदलाव कर सके
+            window.open("https://docs.google.com/spreadsheets/d/1r9UjdyIEOZKz-88nYj4PQ_NeML9o_OKvJW7HQs3TlvQ/edit", "_blank");
+        } else {
+            alert("गलत पासवर्ड!");
+        }
     }
 </script>
 </body>
